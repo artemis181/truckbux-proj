@@ -22,17 +22,47 @@ import { AddIcon } from '@chakra-ui/icons'
 import CreateTask from '../components/createTask';
 import TaskCard from '../components/taskCard';
 import { useSelector, useDispatch } from 'react-redux';
+//import { signOut } from '../firebase';
 
-const TodoList = () => {
+/**
+ * TodoList
+ * @param {function} setUser - temp function to bypass user auth
+ * @returns Screen that displays tasks
+ */
+const TodoList = ({ setUser }) => {
     const [ open, setOpen] = useState(false);
+    const [ taskList, setTaskList ] = useState();
     const openModal = () => {
         setOpen(true);
     };
     const tasks = useSelector(state => state.tasks);
+
+    /*
+    Function to get a user's tasks from firebase and load them into redux
+    function getAllTasks = () => {
+        db.collection('tasks')/
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then((data) => {
+            let tempTasks = [];
+            data.forEach((task) => {
+                tempTasks.push({
+                    id: task.id,
+                    title: task.title,
+                    details: task.details,
+                    imp: task.imp,
+                    comp: task.comp,
+                });
+            });
+            dispatch(fetchTasks(tempTasks));
+        });
+    }
+    */
     
     return(
         <>
-            <Flex direction="column" alignItems="center">
+            <Flex direction="column" alignItems="center" style={{ margin: 10 }}>
+                <Button onClick={() => setUser(false)}>Sign Out</Button>
                 <Text>Todo List</Text>
                 <Flex direction="row" height="500px">
                     <List>
@@ -46,7 +76,7 @@ const TodoList = () => {
                         )}
                         </ListItem>
                     </List>
-                    <Divider orientation="vertical"/>
+                    <Divider margin={10} orientation="vertical"/>
                     <List>
                         <ListItem>
                         {tasks.filter(task => task.comp != true).filter(task => task.imp == false).length > 0 ? (
@@ -58,7 +88,7 @@ const TodoList = () => {
                         )}
                         </ListItem>
                     </List>
-                    <Divider orientation="vertical"/>
+                    <Divider margin={10} orientation="vertical"/>
                     <List>
                     <ListItem>
                         {tasks.filter(task => task.comp == true).length > 0 ? (
@@ -71,9 +101,8 @@ const TodoList = () => {
                         </ListItem>
                     </List>
                 </Flex>
-                <IconButton onClick={openModal} icon={<AddIcon />}/>
+                <IconButton style={{ width: '30%'}}onClick={openModal} icon={<AddIcon />}/>
             </Flex>
-
             <CreateTask open={open} setOpen={setOpen} />
         </>
     );

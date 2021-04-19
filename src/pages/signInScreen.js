@@ -11,7 +11,12 @@ import { useHistory } from 'react-router-dom';
 import SignUp from '../components/signUp';
 import { signInGoogle, auth, signInWithGoogle } from '../firebase';
 
-const SignIn = () => {
+/**
+ * SignIn 
+ * @param {function} setUser - temp function to bypass user auth
+ * @returns screen for user to sign in
+ */
+const SignIn = ({ setUser }) => {
     const [ open, setOpen ] = useState(false);
     const [ show, setShow ] = useState(false);
     const [ email, setEmail ] = useState('');
@@ -41,6 +46,7 @@ const SignIn = () => {
                 </InputGroup>
                 <Button onClick={() => signInWithEmailHandler} >Sign In</Button>
                 <Button onClick={signUp}>Sign Up</Button>
+                <Button onClick={() => setUser(true)}>Sign in manually</Button>
                 <SignUp open={open} setOpen={setOpen} />
             </Flex>
         </>

@@ -16,6 +16,12 @@ import {
 } from '@chakra-ui/react';
 import { auth } from '../firebase';
 
+/**
+ * SignUp
+ * @param {boolean} open - if the modal is open or not
+ * @param {function} setOpen - sets open value of modal 
+ * @returns Modal that allows user to create an account
+ */
 const SignUp = ({ open, setOpen }) => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
